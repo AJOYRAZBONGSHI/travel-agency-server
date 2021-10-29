@@ -22,31 +22,31 @@ async function run() {
     const productCollection = database.collection("Tourist_Place");
 
     // GET Product API
-    app.get("/products", async (req, res) => {
-      const cursor = productCollection.find({});
-      const page = req.query.page;
-      const size = parseInt(req.query.size);
-      let products;
-      const count = await cursor.count();
-      if (page) {
-        products = await cursor
-          .skip(page * size)
-          .limit(size)
-          .toArray();
-      } else {
-        products = await cursor.toArray();
-      }
+    // app.get("/products", async (req, res) => {
+    //   const cursor = productCollection.find({});
+    //   const page = req.query.page;
+    //   const size = parseInt(req.query.size);
+    //   let products;
+    //   const count = await cursor.count();
+    //   if (page) {
+    //     products = await cursor
+    //       .skip(page * size)
+    //       .limit(size)
+    //       .toArray();
+    //   } else {
+    //     products = await cursor.toArray();
+    //   }
 
-      res.send({ count, products });
-    });
+    //   res.send({ count, products });
+    // });
 
     // use POST to get data by keys
-    app.get("/products/keys", async (req, res) => {
-      const keys = req.body;
-      const query = { keys: { $in: keys } };
-      const products = await productCollection.find(query).toArray();
-      res.json(products);
-    });
+    // app.get("/products/keys", async (req, res) => {
+    //   const keys = req.body;
+    //   const query = { keys: { $in: keys } };
+    //   const products = await productCollection.find(query).toArray();
+    //   res.json(products);
+    // });
   } finally {
     // await client.close;
   }
@@ -55,7 +55,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("ema-john server is running");
+  res.send("travel-agency server running");
 });
 
 app.listen(port, () => {
