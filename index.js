@@ -21,12 +21,6 @@ async function run() {
     const database = client.db("Travel_Agency");
     const placeCollection = database.collection("Tourist_Place");
 
-    // add data with POST 
-    app.post('/places',async(req,res)=>{
-      console.log('hitting the post',req.body);
-      res.send('added')
-    })
-
     // GET Product API
     app.get("/places", async (req, res) => {
       const cursor = placeCollection.find({});
@@ -34,13 +28,23 @@ async function run() {
       res.send(places);
     });
 
-    // use POST to get data by keys
-    app.get("/place/keys", async (req, res) => {
-      const keys = req.body;
-      const query = { keys: { $in: keys } };
-      const place = await placeCollection.find(query).toArray();
-      res.json(place);
+    // add data with POST
+    app.post("/places", async (req, res) => {
+      const newPlace = req.body;
+      const result = await placeCollection.insertOne(newPlace);
+
+      console.log("hitting the post", req.body);
+      console.log("added user", result);
+      res.json(result);
     });
+
+    // use POST to get data by keys
+    // app.get("/place/keys", async (req, res) => {
+    //   const keys = req.body;
+    //   const query = { keys: { $in: keys } };
+    //   const place = await placeCollection.find(query).toArray();
+    //   res.json(place);
+    // });
   } finally {
     // await client.close;
   }
