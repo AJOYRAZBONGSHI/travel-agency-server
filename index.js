@@ -21,6 +21,12 @@ async function run() {
     const database = client.db("Travel_Agency");
     const placeCollection = database.collection("Tourist_Place");
 
+    // add data with POST 
+    app.post('/places',async(req,res)=>{
+      console.log('hitting the post',req.body);
+      res.send('added')
+    })
+
     // GET Product API
     app.get("/places", async (req, res) => {
       const cursor = placeCollection.find({});
