@@ -19,34 +19,22 @@ async function run() {
   try {
     await client.connect();
     const database = client.db("Travel_Agency");
-    const productCollection = database.collection("Tourist_Place");
+    const placeCollection = database.collection("Tourist_Place");
 
     // GET Product API
-    // app.get("/products", async (req, res) => {
-    //   const cursor = productCollection.find({});
-    //   const page = req.query.page;
-    //   const size = parseInt(req.query.size);
-    //   let products;
-    //   const count = await cursor.count();
-    //   if (page) {
-    //     products = await cursor
-    //       .skip(page * size)
-    //       .limit(size)
-    //       .toArray();
-    //   } else {
-    //     products = await cursor.toArray();
-    //   }
-
-    //   res.send({ count, products });
-    // });
+    app.get("/places", async (req, res) => {
+      const cursor = placeCollection.find({});
+      const places = await cursor.toArray();
+      res.send(places);
+    });
 
     // use POST to get data by keys
-    // app.get("/products/keys", async (req, res) => {
-    //   const keys = req.body;
-    //   const query = { keys: { $in: keys } };
-    //   const products = await productCollection.find(query).toArray();
-    //   res.json(products);
-    // });
+    app.get("/place/keys", async (req, res) => {
+      const keys = req.body;
+      const query = { keys: { $in: keys } };
+      const place = await placeCollection.find(query).toArray();
+      res.json(place);
+    });
   } finally {
     // await client.close;
   }
